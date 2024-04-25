@@ -1,0 +1,22 @@
+{
+    "root": true,       // プロジェクトの直下のeslintのファイルの場合に記載
+    "env": {            // 環境変数の設定
+      "browser": true,  // ブラウザ上で開発を行う場合に記載
+      "node": true,   // nodeを使用する場合に記載
+      "es2021": true,   // ここを記載する場合、以下の"ecmaVersion"は記載する必要はない
+    },
+    "parser":"@typescript-eslint/parser",      // ESLintに構文を理解させるために記載
+    "parserOptions": {
+      "ecmaVersion": "latest", // ECMAScriptのバージョンを記載
+      "sourceType": "module",// import/exportを使用する場合に記載(デフォルトではscript)
+      "ecmaFeatures": {
+        "jsx": true,         // jsx記法を使用する場合に記載
+      },
+    },
+    "extends": ["@nuxt/eslint-config"],  // 外部のルールセットを使用する場合に記載
+    "plugins": [],  // pluginを使用する場合に記載
+    "rules": {      // 個別にルールを定義する場合にこの中に記載
+      "quotes": ["error", "single"]  // 「シングルクォートに統一する、違うものを使用したらエラーを出力する」という設定
+    },
+  }
+  
