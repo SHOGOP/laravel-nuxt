@@ -7,7 +7,7 @@
     <v-col
       cols="3"
       class="flex-row justify-center"
-      v-for="item in items"
+      v-for="item in products.data"
       :key="item.id">    
           <v-hover
         vv-slot="{ isHovering, props }"
@@ -29,11 +29,11 @@
       :src="`/img/category/${item.category}.jpg`"
       :alt="item.name"
     >
-    <v-card-title class="text-h5">{{ item.name }}</v-card-title>
+    <v-card-title class="text-h5">{{item.category}}</v-card-title>
     </v-img>
 
     <v-card-text class="text--primary">
-      <div>{{ item.description }}</div>
+      <div>{{ item.category }}</div>
 
     </v-card-text>
   </v-card>
@@ -45,6 +45,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const message = ref("test")
+
 const items = ref([
   {
     id: 1,
@@ -69,6 +70,13 @@ const goToCategoryPage = (linkID: number) => {
 const generateImgPath = (fileName: string): string => {
   return new URL(`../img/category/${fileName}.jpg`, import.meta.url).href
 }
+
+const runtimeConfig = await useRuntimeConfig();
+const url = runtimeConfig.public.apiUrl + '/api/products'
+const response = await fetch(url,{
+  method: 'GET',
+});
+let products = await response.json();
 </script>
 <style lang="sass" scoped>
 .v-card.on-hover.v-theme--dark
