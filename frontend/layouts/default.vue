@@ -11,4 +11,13 @@
   </v-app>
 </template>
 <script setup lang="ts"></script>
-<style lang="scss"></style>
+<style lang="scss">
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 2s;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
+</style>

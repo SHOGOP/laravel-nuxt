@@ -1,38 +1,78 @@
 <template>
-  <v-sheet
-    elevation="12"
-    max-width="600"
-    rounded="lg"
-    width="100%"
-    class="pa-4 text-center mx-auto">
-    <v-icon class="mb-5" color="success" icon="mdi-check-circle" size="112" />
-
-    <h2 class="text-h5 mb-6">You reconciled this account</h2>
-
-    <p class="mb-4 text-medium-emphasis text-body-2">
-      To see a report on this reconciliation, click
-      <a href="#" class="text-decoration-none text-info"
-      >View reconciliation report.</a
+      <v-container height="300px" 
+      max-width="500px"
+      class="bg-blue-lighten-3 rounded-lg"
+      elevation="3">
+  <v-row>
+    <v-col
+      cols="3"
+      class="flex-row justify-center"
+      v-for="item in items"
+      :key="item.id">    
+          <v-hover
+        vv-slot="{ isHovering, props }"
+        open-delay="200"
       >
+  <v-card
+    :class="{ 'on-hover': isHovering }"
+    :elevation="isHovering ? 16 : 2"
+    class="mx-auto"
+    max-width="300"
+    v-bind="props"
+    @click="goToCategoryPage(item.id)"
+  >
+    <v-img
+      class=" align-end"
+      color="#385F73"
+      max-width="300px"
+      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+      :src="`/img/category/${item.category}.jpg`"
+      :alt="item.name"
+    >
+    <v-card-title class="text-h5">{{ item.name }}</v-card-title>
+    </v-img>
 
-      <br />
+    <v-card-text class="text--primary">
+      <div>{{ item.description }}</div>
 
-      Otherwise, you're done!
-    </p>
-
-    <v-divider class="mb-4" />
-
-    <div class="text-end">
-      <v-btn
-        class="text-none"
-        color="success"
-        rounded
-        variant="flat"
-        width="90">
-        Done
-      </v-btn>
-    </div>
-  </v-sheet>
+    </v-card-text>
+  </v-card>
+  </v-hover>
+  </v-col>
+  </v-row>
+  </v-container>
 </template>
-<script setup lang="ts"></script>
-<style lang="scss"></style>
+<script setup lang="ts">
+import { ref } from 'vue'
+const message = ref("test")
+const items = ref([
+  {
+    id: 1,
+    name: 'スマートフォン',
+    category: "SmartPhone",
+    description: "iPhone/Xperia/Galaxy",
+  },
+  {
+    id: 2,
+    name: 'タブレット',
+    category: "Tablet",
+    description: "iPad/MacBook/Surface",
+  },
+])
+
+const counter = useState("counter", () => 0);
+const router = useRouter();
+const goToCategoryPage = (linkID: number) => {
+    router.push('/category/'+linkID)
+}
+//imgのpathを生成する関数
+const generateImgPath = (fileName: string): string => {
+  return new URL(`../img/category/${fileName}.jpg`, import.meta.url).href
+}
+</script>
+<style lang="sass" scoped>
+.v-card.on-hover.v-theme--dark
+  background-color: rgba(#FFF, 0.8)
+  >.v-card__text
+    color: #000
+</style>
