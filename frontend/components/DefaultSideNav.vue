@@ -41,5 +41,6 @@ import { ref } from 'vue'
 
 const drawer = ref<boolean>(true)
 const rail = ref<boolean>(true)
+
 </script>
 <style lang="scss"></style>

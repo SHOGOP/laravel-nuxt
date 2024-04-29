@@ -33,7 +33,7 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
     volumes:
-      - /var/lib/mysql
+      - ./mysql:/var/lib/mysql
     env_file:
       - ./.env
   nginx:

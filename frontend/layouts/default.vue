@@ -2,7 +2,8 @@
   <v-app>
     <DefaultHeader />
     <DefaultSideNav />
-    <v-main class="d-flex align-center">
+    <v-main class="d-flex align-center"
+    >
       <v-container>
         <slot />
       </v-container>
@@ -14,7 +15,7 @@
 <style lang="scss">
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 2s;
+  transition: opacity 5s;
 }
 .page-enter,
 .page-leave-active {

@@ -15,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('/products', 'App\Http\Controllers\ProductController');
+Route::apiResource('/category', 'App\Http\Controllers\CategoryController');
+Route::apiResource('/subcategory', 'App\Http\Controllers\SubCategoryController');
+Route::apiResource('/detail', 'App\Http\Controllers\DetailController');
+Route::apiResource('/option', 'App\Http\Controllers\OptionController');
