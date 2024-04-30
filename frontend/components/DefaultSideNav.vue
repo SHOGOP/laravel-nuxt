@@ -23,11 +23,15 @@
         <v-list-item
           prepend-icon="mdi-home-city"
           title="Home"
-          value="home"></v-list-item>
+          value="home"
+          @click="goToHomePage"
+          ></v-list-item>
         <v-list-item
           prepend-icon="mdi-account"
-          title="My Account"
-          value="account"></v-list-item>
+          title="Manage"
+          value="account"
+          @click="goToManagePage"
+          ></v-list-item>
         <v-list-item
           prepend-icon="mdi-account-group-outline"
           title="Users"
@@ -41,6 +45,12 @@ import { ref } from 'vue'
 
 const drawer = ref<boolean>(true)
 const rail = ref<boolean>(true)
-
+const router = useRouter();
+const goToHomePage = () => {
+    router.push("/")
+}
+const goToManagePage = () => {
+    router.push("/manage")
+}
 </script>
 <style lang="scss"></style>

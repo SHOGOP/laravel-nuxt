@@ -7,5 +7,7 @@
 
 const router = useRoute();
 const apiUrl = '/category/'+router.params.category
-const rootUrl = "/"+router.params.category+"/"
+const rootUrl = "/" + router.params.category + "/"
+
+
 </script>

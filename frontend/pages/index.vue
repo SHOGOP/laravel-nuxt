@@ -5,5 +5,6 @@
 <script setup lang="ts">
 const route = useRoute();
 </script>
-<style lang="sass" scoped>
+<style >
+
 </style>

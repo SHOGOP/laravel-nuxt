@@ -33,6 +33,14 @@
       :src="`${imgPrefix}${Props.rootUrl}${item.title}/image.jpg`"
       :alt="item.title"
     >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+           </div>
+        </template>
     <v-card-title class="text-h5">{{item.title}}</v-card-title>
     </v-img>
 
