@@ -1,23 +1,26 @@
     <template>
-
     <v-item-group
         mandatory
         v-model="resModel"
       >
     <v-card
     class="bg-red-lighten-4"
-    width = "150"
+    max-width = "150"
     >
     <h3 class="ml-7">{{ Props.optionName }}</h3>
   </v-card>
     <v-card
-    class="mt-1 bg-red-lighten-4 "
-    width = "500"
+    class="overflow-y-auto bg-red-lighten-4"
+    max-width = "900"
+        id="scroll-target"
+    style="max-height: 300px"
     >
-    <v-row>
+    <v-row
+    no-gutters
+    >
     <v-col
-      cols="3"
-      class="align-center justify-center ml-0 mt-2 "
+      :cols="Props.colSize"
+      class="align-center justify-center ml-0 mt-0 "
       v-for="(item, index)  in Items"
       :key="index"
       >
@@ -26,19 +29,18 @@
     :value="item"
     >
     <v-card
-    class="align-center "
+    class="align-center ma-1"
     v-bind="props"
     :color="isSelected ? 'primary' : ''"
     :elevation="isHovering ? 12 : 2"
     dark
     @click="select_option(toggle)"
-    width = "95%"
-    height = "95%"
-
+    max-width = "300"
     >
     <v-img
-      class=" align-end"
+    class=" align-end ma-1"
       color="#385F73"
+      max-width = "300"
       :gradient="isSelected ? 'to bottom, rgba(0,0,0,.0), rgba(0,0,0,.0)' :
       'to bottom, rgba(0,0,0,.0), rgba(0,0,0,.5)' "
       :src="`${imgPrefix}${Props.itemName}/${item}.jpg`"
@@ -46,15 +48,16 @@
     >
     </v-img>
     <v-img
-      class=" align-end"
+      class=" align-end ma-1"
       color="#385F73"
+      width = "95%"
       :gradient="isSelected ? 'to bottom, rgba(0,0,0,.0), rgba(0,0,0,.0)' :
       'to bottom, rgba(0,0,0,.0), rgba(0,0,0,.5)' "
       :src="`/img/${Props.optionName}/${item}/image.jpg`"
       v-else
     >
     </v-img>
-    
+    <h4 class="text-center">{{item}}</h4>
     </v-card>
     </v-item>
     </v-hover>
@@ -70,6 +73,7 @@ interface Props {
   optionName: string
   Items: any
   selectOption: string
+  colSize: string
 }
 const Props = defineProps<Props>()
 const resModel = defineModel()

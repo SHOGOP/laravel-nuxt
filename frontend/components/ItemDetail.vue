@@ -6,9 +6,11 @@
   class="bg-blue-lighten-3 rounded-lg "
   elevation="3"
   >
-  <v-row>
+  <v-row
+  no-gutters
+  >
     <v-col
-      cols="3"
+      cols="2"
       class="flex-row justify-center ">
     <h3 class="flex-row justify-center ml-5">{{Props.itemName}}</h3>
     <v-img
@@ -49,31 +51,35 @@
     <Option2Detail :option2="option2"/>
     </v-container>
     </v-col>
+
 <!-- Options -->
     <v-col
-      cols="4"
-      class="flex-row justify-center ml-15"
+      cols="6"
+      class="flex-row justify-center ml-0"
       >
 <!-- Option1 -->
     <v-col
-      cols="4"
+      cols="12"
       >
     <OptionSelector :itemName="Props.rootUrl"
     :optionName="'option1'"
     :Items="products_op1"
     :selectOption="option1"
+    colSize="2"
     v-model="option1"
     v-on:click="onOption1Click"
     />
     </v-col>
 <!-- Option2 -->
+
     <v-col
-      cols="4"
+      cols="12"
       >
     <OptionSelector :itemName="Props.rootUrl"
     :optionName="'option2'"
     :Items="products_op2"
     :selectOption="option2"
+    colSize="3"
     v-model="option2"
     v-on:click="onOption2Click"
     />

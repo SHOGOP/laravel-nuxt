@@ -4,7 +4,7 @@
       id="scroll-target"
       class="overflow-y-auto"
       style="max-height: 750px"
-      width = "550px"
+      max-width = "600px"
     >
 
     <v-row
