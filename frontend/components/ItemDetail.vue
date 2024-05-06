@@ -9,39 +9,15 @@
   <v-row
   no-gutters
   >
+<!-- ItemDescription -->
     <v-col
       cols="2"
       class="flex-row justify-center ">
-    <h3 class="flex-row justify-center ml-5">{{Props.itemName}}</h3>
-    <v-img
-      class=" align-end ml-5"
-      color="#385F73"
-      max-width="400px"
-      max-height="400px"
-      :src="`${imgPrefix}${Props.rootUrl}/${option1}_${option2}.jpg`"
-    >
-    </v-img>
-    <v-sheet
-    class ="mt-5"
-    color="#b22222"
-    height="45%" 
-    >
-    <div class="flex-row justify-center ml-1">
-      <h3>対応機種</h3>
-    </div>
-    <v-card
-    color="#fffafa"
-    class = "ml-2 mt-2"
-    width="95%" 
-    >
-    <div class="flex-row justify-center ml-1">
-    <li>対応機種 : iPhone 15 Pro Max専用の商品です。</li>
-    <li>製品内容 : 画面用フィルム1枚・クリーニングワイプ1個</li>
-    <li>※この機器は周辺部が曲面となったラウンド仕様のため、保護フィルムを端まで貼ることができません。(表示部分はカバーしています)</li>
-    <li>安心の国産素材を使用。日本国内の自社工場で製造し出荷しています。 ★貼り付け失敗交換サービス対象商品★</li>
-    </div>
-    </v-card>
-      </v-sheet>
+    <ItemDescription :itemName="Props.itemName" 
+    :rootUrl="Props.rootUrl"
+    :option1="option1"
+    :option2="option2"
+    />
     </v-col>
 <!-- OptionDetail -->
     <v-col
@@ -71,7 +47,6 @@
     />
     </v-col>
 <!-- Option2 -->
-
     <v-col
       cols="12"
       >
@@ -84,12 +59,31 @@
     v-on:click="onOption2Click"
     />
     </v-col>
+<!-- Cart -->
+    <v-col
+      cols="12"
+      >
+    <ItemDetailCart :itemName="productName"
+    :itemId="productId"
+    :price="price"
+    :priceTax="priceTax"
+    :totalFee="totalFee"
+    :totalFeeTax="totalFeeTax"
+    :Items="products_combo"
+    v-model="combo"
+    v-on:comboUpdate="onComboClick"
+    v-on:qtyUpdate="onQtyClick"
+    />
+    </v-col>
     </v-col>
     </v-row>
+    
   </v-container>
 </template>
 <script setup lang="ts">
 import { useGoTo } from 'vuetify'
+import alasql from 'alasql';
+import anime from 'animejs'
 interface Props {
   itemName: string
   rootUrl: string
@@ -97,7 +91,7 @@ interface Props {
 
 const Props = defineProps<Props>()
 const runtimeConfig = await useRuntimeConfig();
-
+const productName = Props.itemName
 const url = runtimeConfig.public.apiUrl + "/api"+'/detail/' + Props.itemName
 
 const router = useRouter();
@@ -114,25 +108,110 @@ let products = await response.json();
 
 const option1 = ref(products.data[0].option1)
 const option2 = ref(products.data[0].option2)
+const combo = ref(products.data[0].combo)
+const qty = ref(1)
+const tax = 10//データベースを参照するように修正する
+const price = ref(products.data[0].price)
+const priceTax = ref(calc_tax(products.data[0].price))
+const totalFee = ref(products.data[0].price)
+const totalFeeTax = ref(calc_tax(products.data[0].price))
+const productId = ref()
 const products_op1 = ref<string[]>([])
 const products_op2 = ref<string[]>([])
-
-function set_products() {
+const products_combo = ref<number[]>([])
+const test = ref<string[]>([])
+function calc_tax(num: number) {
+  const per_tax = 1+(tax/100)
+  return Math.floor(num * per_tax)
+}
+async function set_products() {
+  //配列初期化
   products_op1.value = []
-  products_op2.value=[]
-  products.data.forEach((e) => {
-  products_op1.value.push(e.option1);
-  if(e.option1 == option1.value){
-    products_op2.value.push(e.option2);
-  }
-  products_op1.value = products_op1.value.filter((element, index) => {
-    return products_op1.value.indexOf(element) == index;
-  }) 
-  products_op2.value = products_op2.value.filter((element, index) => {
-    return products_op2.value.indexOf(element) == index;
-  }) 
+  products_op2.value = []
+  products_combo.value = []
+  //option1 sql
+  var sql = 'SELECT DISTINCT option1 ' +
+    'FROM ? dt ';
+  var rs = alasql(sql, [products.data]);
+  var res = []
+  rs.forEach((e) => { res.push(e["option1"]) })
+  products_op1.value = res
+  //option2 sql
+  var sql = 'SELECT DISTINCT option2 ' +
+    'FROM ? dt ' +
+    'WHERE option1 = "' + option1.value + '"';
+  var rs = alasql(sql, [products.data]);
+  var res = []
+  rs.forEach((e) => { res.push(e["option2"]) })
+  products_op2.value = res
 
-});
+  var op2_sql = option2.value
+  //option2がリストにない場合
+  if (!products_op2.value.includes(option2.value)) {
+    op2_sql = products_op2.value[0]
+    option2.value = op2_sql
+  }
+  //combo sql
+  var sql = 'SELECT DISTINCT combo ' +
+    'FROM ? dt ' +
+    'WHERE option1 = "' + option1.value + '"' +
+    'AND option2 = "' + op2_sql + '"';
+  var rs = alasql(sql, [products.data]);
+  var res = []
+  rs.forEach((e) => { res.push(e["combo"]) })
+
+  products_combo.value = res
+
+  var combo_sql = combo.value
+  //comboがリストにない場合
+  if (!products_combo.value.includes(combo.value)) {
+    combo_sql = 1
+    combo.value = combo_sql
+  }
+  //id sql
+  var sql = 'SELECT id ' +
+    'FROM ? dt ' +
+    'WHERE option1 = "' + option1.value + '"' +
+    'AND option2 = "' + op2_sql + '"' +
+    'AND combo = ' + combo_sql;
+  var rs = alasql(sql, [products.data]);
+  test.value = rs
+  productId.value = rs[0]["id"]
+  //price sql
+  var sql = 'SELECT price ' +
+    'FROM ? dt ' +
+    'WHERE id = ' + productId.value;
+  var rs = alasql(sql, [products.data]);
+  anime({
+    targets: price,
+    value: rs[0]["price"],// 対象を指定
+    round: 1,
+    duration: 700, // ミリ秒指定
+    easing: 'easeInOutCubic' // 加減速の種類
+  })
+  anime({
+    targets: priceTax,
+    value: calc_tax(rs[0]["price"]),// 対象を指定
+    round: 1,
+    duration: 700, // ミリ秒指定
+    easing: 'easeInOutCubic' // 加減速の種類
+  })
+  const multi = qty.value
+    anime({
+    targets: totalFee,
+    value: rs[0]["price"]*multi,// 対象を指定
+    round: 1,
+    duration: 700, // ミリ秒指定
+    easing: 'easeInOutCubic' // 加減速の種類
+    })
+    anime({
+    targets: totalFeeTax,
+    value: calc_tax(rs[0]["price"]*multi),// 対象を指定
+    round: 1,
+    duration: 700, // ミリ秒指定
+    easing: 'easeInOutCubic' // 加減速の種類
+    })
+
 }
 const goTo = useGoTo();
 function onScroll() {
@@ -142,13 +221,22 @@ set_products()
 const onOption1Click = ():void => {
   //option1.value = res
   set_products()
-  option2.value = products_op2.value[0]
   onScroll()
 }
 const onOption2Click = ():void => {
   set_products()
   onScroll()
 }
+const onComboClick = (): void => {
+  set_products()
+  onScroll()
+}
+const onQtyClick = (select: number): void => {
+  qty.value=select
+  set_products()
+  onScroll()
+}
+
 
 </script>
 <style scoped>

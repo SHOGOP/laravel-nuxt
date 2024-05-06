@@ -10,7 +10,8 @@ export default defineNuxtConfig({
   modules: [
     '@invictus.codes/nuxt-vuetify',
     ['@nuxtjs/eslint-module', { lintOnStart: false }],
-
+    'nuxt-unity-webgl',
+    '@pinia/nuxt',
   ],
       runtimeConfig: {
         apiKey: '',

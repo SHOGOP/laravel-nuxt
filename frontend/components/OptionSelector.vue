@@ -7,7 +7,7 @@
     class="bg-red-lighten-4"
     max-width = "150"
     >
-    <h3 class="ml-7">{{ Props.optionName }}</h3>
+    <h3 class="text-center">{{ Props.optionName }}</h3>
   </v-card>
     <v-card
     class="overflow-y-auto bg-red-lighten-4"
@@ -46,6 +46,14 @@
       :src="`${imgPrefix}${Props.itemName}/${item}.jpg`"
       v-if="Props.optionName==='option1'"
     >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+           </div>
+        </template>
     </v-img>
     <v-img
       class=" align-end ma-1"
@@ -56,6 +64,14 @@
       :src="`/img/${Props.optionName}/${item}/image.jpg`"
       v-else
     >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+           </div>
+        </template>
     </v-img>
     <h4 class="text-center">{{item}}</h4>
     </v-card>

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('option3')->nullable();
             $table->string('option4')->nullable();
             $table->string('option5')->nullable();
+            $table->INTEGER('combo');
+            $table->INTEGER('price');
             $table->timestamps();
         });
     }

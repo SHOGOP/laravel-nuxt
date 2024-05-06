@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -18,13 +19,24 @@ class ProductController extends Controller
             'data' => $products
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
+    public function restore(Request $request)
+    {
+        $products = Product::query()->delete();
+        DB::statement('ALTER TABLE products AUTO_INCREMENT = 1');
+        $product = Product::insert($request->all());
+        return response()->json([
+            'message' => 'Product restore successfully',
+            'data' => $product
+        ], 201, [], JSON_UNESCAPED_UNICODE);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->all());
+        
+        $product = Product::insert($request->all());
         return response()->json([
             'message' => 'Product created successfully',
             'data' => $product
@@ -73,6 +85,12 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        /*
+        $destroy = [
+            'mode' => $request->id,
+            'id' => $request->id
+        ];
+        */
         $product = Product::where('id', $id)->delete();
         if ($product) {
             return response()->json([

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +19,6 @@ Route::apiResource('/category', 'App\Http\Controllers\CategoryController');
 Route::apiResource('/subcategory', 'App\Http\Controllers\SubCategoryController');
 Route::apiResource('/detail', 'App\Http\Controllers\DetailController');
 Route::apiResource('/option', 'App\Http\Controllers\OptionController');
+
+// restore products
+Route::post('/products/restore', ProductController::class . '@restore')->name('products.restore');

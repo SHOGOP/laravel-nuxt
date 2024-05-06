@@ -20,6 +20,14 @@
       :src="`${imgPrefix}${Props.option2}/descript_${n}.jpg`"
       :alt="Props.option2"
     >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+           </div>
+        </template>
     </v-img>
   </v-col>
       </v-row>
@@ -33,6 +41,7 @@ interface Props {
 
 const Props = defineProps<Props>()
 const runtimeConfig = await useRuntimeConfig();
+
 
 const router = useRouter();
 

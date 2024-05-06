@@ -17,5 +17,7 @@ class Product extends Model
         'option3',
         'option4',
         'option5',
+        'combo',
+        'price',
     ];
 }

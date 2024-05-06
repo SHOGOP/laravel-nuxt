@@ -1,16 +1,56 @@
 
 <template>
-  <v-app-bar color="primary" density="compact">
+  <v-app-bar color="primary">
     <template #prepend>
       <v-app-bar-nav-icon />
     </template>
 
-    <v-app-bar-title>Nuxt3 Tutorial</v-app-bar-title>
+    <v-app-bar-title>
+      <v-btn
+      @click="goToHomePage"
+      >
+      <div class="text-h5">PDA工房</div>
+      </v-btn>
+      </v-app-bar-title>
 
     <template #append>
-      <v-btn icon="mdi-dots-vertical" />
+        <v-card
+        rounded="circle"
+        width="40"
+        height="40"
+        color="yellow"
+        >
+        <div class="d-flex align-center justify-center fill-height text-h6">
+          {{ userState.cartCount }}
+        </div>
+        </v-card>
+        <v-btn
+        >
+          <v-icon
+          size="30"
+          >
+            mdi-cart
+          </v-icon>
+
+          カート
+        </v-btn>
+        <v-btn>
+          <v-icon
+          size="30"
+          >
+            mdi-account
+          </v-icon>
+          アカウント
+        </v-btn>
     </template>
+    
   </v-app-bar>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const router = useRouter();
+const goToHomePage = () => {
+    router.push("/")
+}
+const userState = useState('login-user')
+</script>
 <style lang="scss"></style>
