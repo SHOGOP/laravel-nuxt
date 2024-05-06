@@ -98,6 +98,7 @@ const exportProductData =
   a.remove()
   URL.revokeObjectURL(url)
   }
+
 const importProductData =
   async () => {
     const res = await $fetch(postUrl, {
@@ -117,6 +118,7 @@ const importProductData =
   a.remove()
   URL.revokeObjectURL(url)
   }
+
 function json2csv(input:any) {
     const keys = Object.keys(input[0])
   let text =""
@@ -168,16 +170,19 @@ const handleFileUpload = (event) => {
         var cnt = 0
         var res = {}
         keys.forEach((key) => {
+          if (key == "id" || key == "created_at" || key == "updated_at") { }
+          else {
           res[key] = line.split(",")[cnt].replace(" \r", "")
           if (!isNaN(res[key])) {
             res[key]=Number(res[key])
+          }
           }
           cnt += 1
         }
         )
         data.push(res)
       })
-      csvData.value = content
+      csvData.value = data
       const res = await $fetch(postUrl +"restore", {
         method: 'POST',
         body: JSON.stringify(data),
