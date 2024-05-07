@@ -18,13 +18,14 @@
         rounded="circle"
         width="40"
         height="40"
-        color="yellow"
+        color="orange-darken-3"
         >
         <div class="d-flex align-center justify-center fill-height text-h6">
-          {{ userState.cartCount }}
+          {{ userCart.count }}
         </div>
         </v-card>
         <v-btn
+        @click="goToCartPage()"
         >
           <v-icon
           size="30"
@@ -51,6 +52,9 @@ const router = useRouter();
 const goToHomePage = () => {
     router.push("/")
 }
-const userState = useState('login-user')
+const goToCartPage = () => {
+    router.push("/cart")
+}
+const userCart = useUserCart();
 </script>
 <style lang="scss"></style>

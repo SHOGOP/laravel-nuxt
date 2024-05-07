@@ -63,8 +63,7 @@
     <v-col
       cols="12"
       >
-    <ItemDetailCart :itemName="productName"
-    :itemId="productId"
+    <ItemDetailCart :item="product"
     :price="price"
     :priceTax="priceTax"
     :totalFee="totalFee"
@@ -98,7 +97,8 @@ const router = useRouter();
 const goToCategoryPage = (id: string) => {
     router.push(Props.rootUrl+id)
 }
-
+const Global = useGlobalSetting();
+const { calc_tax } = Global;
 const imgPrefix = "/img/category"
 
 const response = await fetch(url,{
@@ -110,20 +110,17 @@ const option1 = ref(products.data[0].option1)
 const option2 = ref(products.data[0].option2)
 const combo = ref(products.data[0].combo)
 const qty = ref(1)
-const tax = 10//データベースを参照するように修正する
+
 const price = ref(products.data[0].price)
 const priceTax = ref(calc_tax(products.data[0].price))
 const totalFee = ref(products.data[0].price)
 const totalFeeTax = ref(calc_tax(products.data[0].price))
-const productId = ref()
+const product = ref()
 const products_op1 = ref<string[]>([])
 const products_op2 = ref<string[]>([])
 const products_combo = ref<number[]>([])
 const test = ref<string[]>([])
-function calc_tax(num: number) {
-  const per_tax = 1+(tax/100)
-  return Math.floor(num * per_tax)
-}
+
 async function set_products() {
   //配列初期化
   products_op1.value = []
@@ -169,18 +166,18 @@ async function set_products() {
     combo.value = combo_sql
   }
   //id sql
-  var sql = 'SELECT id ' +
+  var sql = 'SELECT * ' +
     'FROM ? dt ' +
     'WHERE option1 = "' + option1.value + '"' +
     'AND option2 = "' + op2_sql + '"' +
     'AND combo = ' + combo_sql;
   var rs = alasql(sql, [products.data]);
   test.value = rs
-  productId.value = rs[0]["id"]
+  product.value = rs[0]
   //price sql
   var sql = 'SELECT price ' +
     'FROM ? dt ' +
-    'WHERE id = ' + productId.value;
+    'WHERE id = ' + product.value.id;
   var rs = alasql(sql, [products.data]);
   anime({
     targets: price,

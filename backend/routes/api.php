@@ -22,3 +22,5 @@ Route::apiResource('/option', 'App\Http\Controllers\OptionController');
 
 // restore products
 Route::post('/products/restore', ProductController::class . '@restore')->name('products.restore');
+// pull products
+Route::post('/products/pull', ProductController::class . '@pull')->name('products.pull');

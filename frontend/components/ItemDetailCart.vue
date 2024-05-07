@@ -9,7 +9,7 @@
   <v-col cols =9>
   <v-row no-gutters>
   <v-col cols =12>
-    <h2>{{ itemName }}</h2> 
+    <h2>{{ item.subsubcategory }} {{ item.option1 }} {{ item.option2 }}</h2> 
   </v-col>
 
   <v-col cols =12>
@@ -91,7 +91,7 @@
     class = "text-white"
     height="50"
     color="orange-darken-3"
-    @click="add_cart()"
+    @click="click_addCart(item.id,selectQty)"
     >
     <template v-slot:prepend>
       <v-icon 
@@ -112,8 +112,7 @@
 <script setup lang="ts">
 
 interface Props {
-  itemName:string
-  itemId: string
+  item:object
   price: number
   priceTax: number
   totalFee: number
@@ -145,9 +144,14 @@ const select_combo = ():void => {
 const select_qty  = ():void => {
   emit("qtyUpdate", selectQty.value);
 }
-const userState = useState('login-user')
-const add_cart  = ():void => {
-  userState.value.cartCount++
-}
 
+const userCart = useUserCart();
+const { addCart } = userCart;
+const goToCartPage = () => {
+    router.push("/cart")
+}
+function click_addCart(id:string,qty:number) {
+  addCart(id,qty)
+  goToCartPage()
+}
 </script>

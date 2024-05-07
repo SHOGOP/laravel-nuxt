@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     ['@nuxtjs/eslint-module', { lintOnStart: false }],
     'nuxt-unity-webgl',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
       runtimeConfig: {
         apiKey: '',

@@ -19,6 +19,7 @@ class ProductController extends Controller
             'data' => $products
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
+    //データインポート用
     public function restore(Request $request)
     {
         $products = Product::query()->delete();
@@ -29,13 +30,25 @@ class ProductController extends Controller
             'data' => $product
         ], 201, [], JSON_UNESCAPED_UNICODE);
     }
-
+    public function pull(Request $request)
+    {
+        $idList = $request->input('idList');
+        $res=[];
+        foreach ($idList as &$id) {
+            $product = Product::find($id);
+            array_push($res, $product);
+        };
+        return response()->json([
+            'message' =>  "ok",
+            'data' => $res
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        
+
         $product = Product::insert($request->all());
         return response()->json([
             'message' => 'Product created successfully',

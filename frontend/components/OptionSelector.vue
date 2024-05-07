@@ -73,7 +73,7 @@
            </div>
         </template>
     </v-img>
-    <h4 class="text-center">{{item}}</h4>
+    <div class="card-font-size">{{item}}</div>
     </v-card>
     </v-item>
     </v-hover>
@@ -117,3 +117,9 @@ const select_option = (toggle?: () => void) => {
 
 
 </script>
+<style lang="scss" scoped>
+.card-font-size {
+  font-size: 0.8rem;
+  font-weight: bold; 
+}
+</style>
