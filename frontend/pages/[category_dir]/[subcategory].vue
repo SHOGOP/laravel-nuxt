@@ -1,5 +1,4 @@
 <template>
-  <h1>SubCategory</h1>
   <ItemCards :apiUrl="apiUrl" :rootUrl="rootUrl" />
 </template>
 

@@ -1,15 +1,22 @@
 <template>
-  <h3>api:{{Props.apiUrl}}</h3>
-  <h3>root:{{Props.rootUrl}}</h3>
-  <h3>image:{{`${imgPrefix}${Props.rootUrl}items/image.jpg`}}</h3>
   <v-container height="300px" 
   max-width="500px"
   class="bg-blue-lighten-3 rounded-lg"
   elevation="3">
-  <v-row>
+ 
+  <v-row
+  no-gutters
+  >
+    <v-col cols="12" class="ml-2">
+      <v-card
+        max-width="250"
+        >
+        <h2 class="ml-2">{{ title }}</h2>
+      </v-card>
+    </v-col>
     <v-col
       cols="3"
-      class="flex-row justify-center"
+      class="flex-row justify-center ml-2 mt-3"
       v-for="item in products.data"
       :key="item.id">    
           <v-hover
@@ -59,25 +66,11 @@
   </v-container>
 </template>
 <script setup lang="ts">
-/*
-const items = ref([
-  {
-    id: 1,
-    name: 'スマートフォン',
-    category: "SmartPhone",
-    description: "iPhone/Xperia/Galaxy",
-  },
-  {
-    id: 2,
-    name: 'タブレット',
-    category: "Tablet",
-    description: "iPad/MacBook/Surface",
-  },
-])
-*/
+
 interface Props {
   apiUrl: string
   rootUrl: string
+  title:string
 }
 
 const Props = defineProps<Props>()

@@ -30,10 +30,19 @@
         </template>
     </v-img>
     </v-col>
-    <v-col
-    cols="5"
-    >
-    <h3 class="text-left">{{ product.subsubcategory }} {{ product.option1 }} {{ product.option2 }}</h3>
+    <v-col cols="5" v-if="product.combo==1">
+    <h3 class="text-left">{{ product.subsubcategory }} 
+      {{ product.option1 }} {{ product.option2 }}</h3>
+    <div class="d-flex align-end" >
+    販売価格：
+    <h3>¥{{ product.price.toLocaleString() }}</h3>
+    +税
+    ( 税込 ¥{{ calc_tax(product.price).toLocaleString() }} )
+    </div>
+    </v-col>
+    <v-col cols="5" v-else>
+    <h3 class="text-left">{{ product.subsubcategory }} 
+      {{ product.option1 }} {{ product.option2 }} {{ product.combo }}枚セット</h3>
     <div class="d-flex align-end" >
     販売価格：
     <h3>¥{{ product.price.toLocaleString() }}</h3>

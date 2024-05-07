@@ -1,6 +1,6 @@
 <template>
-  <h1>Index</h1>
-  <ItemCards :apiUrl="'/category'" :rootUrl="'/'" />
+  <TopReccomend/>
+  <ItemCards :apiUrl="'/category'" :rootUrl="'/'" title="カテゴリーから選ぶ" />
 </template>
 <script setup lang="ts">
 const route = useRoute();

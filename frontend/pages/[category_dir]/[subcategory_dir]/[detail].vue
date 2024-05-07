@@ -1,7 +1,5 @@
 <template>
-  
   <ItemDetail :itemName="apiUrl" :rootUrl="rootUrl" />
-  
 </template>
 
 <script setup lang="ts">

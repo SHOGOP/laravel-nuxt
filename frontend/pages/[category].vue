@@ -1,5 +1,4 @@
 <template>
-  <h1>Category</h1>
   <ItemCards :apiUrl="apiUrl" :rootUrl="rootUrl" />
 </template>
 
