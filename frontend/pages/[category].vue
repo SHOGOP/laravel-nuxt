@@ -1,4 +1,8 @@
 <template>
+  <div class="d-flex">
+  <NuxtLink to="/" >Home</NuxtLink>
+  /{{router.params.category}}
+  </div>
   <ItemCards :apiUrl="apiUrl" :rootUrl="rootUrl" />
 </template>
 
