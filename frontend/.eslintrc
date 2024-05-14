@@ -5,7 +5,7 @@
       "node": true,   // nodeを使用する場合に記載
       "es2021": true,   // ここを記載する場合、以下の"ecmaVersion"は記載する必要はない
     },
-    "parser":"@typescript-eslint/parser",      // ESLintに構文を理解させるために記載
+    //"parser":"@typescript-eslint/parser",      // ESLintに構文を理解させるために記載
     "parserOptions": {
       "ecmaVersion": "latest", // ECMAScriptのバージョンを記載
       "sourceType": "module",// import/exportを使用する場合に記載(デフォルトではscript)
